@@ -1,5 +1,6 @@
 <template lang="pug">
   v-container
+    Snackbar
     v-row.d-flex
       v-col(cols="12" xl="3" lg="4" md="6" sm="6" xs="12" v-for="member in this.$store.state.members" :key="member.id")
         v-card
@@ -29,9 +30,11 @@
 </style>
 <script>
 import VoteForm from "../components/VoteForm.vue";
+import Snackbar from "../components/Snackbar.vue";
 export default {
   components: {
-    VoteForm
+    VoteForm,
+    Snackbar
   },
   methods: {
     openForm(id) {

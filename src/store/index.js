@@ -6,9 +6,9 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     isVote: false,
+    isSnackbar: false,
     currentMemberId: 1,
-    members: [
-      {
+    members: [{
         id: 1,
         name: "石塚 政輝",
         is_voted: false,
@@ -280,9 +280,17 @@ export default new Vuex.Store({
       d.servicePoint = data.service;
       d.is_voted = true;
     },
+    openSnack(state) {
+      state.isSnackbar = true
+    },
+    closeSnack(state) {
+      state.isSnackbar = false
+    }
   },
   actions: {
-    vote({ commit }, data) {
+    vote({
+      commit
+    }, data) {
       console.log(data);
       commit("vote", data);
     },

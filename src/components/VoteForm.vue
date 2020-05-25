@@ -7,11 +7,11 @@
         div.d-flex.flex-column
           v-avatar.form-avatar.mb-1.mt-n12.ml-auto.mr-auto(size="100")
             v-img(:src="`./img/avatars/avatar-${currentMemberData.id}.jpg`")
-          p.text-center.mb-0 {{ currentMemberData.name }}
+          p.text-center {{ currentMemberData.name }}
         v-row.d-flex.align-end.pb-0
-          v-col(cols="3")
+          v-col(cols="12" lg="3" xs="12")
             p.title 技術
-          v-col(cols="9")
+          v-col(cols="12" lg="9" xs="12")
             v-radio-group(row @change="value => voteData.tec = value" :value="tec")
               v-radio(
                 v-for="(n,index) in ['S','A','B','C','D']"
@@ -20,9 +20,9 @@
                 :value="index + 1" 
                 :label="n")
         v-row.d-flex.align-end
-          v-col(cols="3")
+          v-col(cols="12" lg="3" xs="12")
             p.title サービス
-          v-col(cols="9")
+          v-col(cols="12" lg="9" xs="12")
             v-radio-group(row @change="value => voteData.service = value" :value="ser")
               v-radio(v-for="(n,index) in ['S','A','B','C','D']" :key="'tec' + n" :value="index + 1" :label="n")
       v-card-actions
@@ -59,6 +59,7 @@ export default {
       console.log(this.voteData);
       this.$store.dispatch("vote", this.voteData);
       this.close();
+      this.$store.commit("openSnack");
     }
   }
 };
