@@ -2,10 +2,9 @@
   v-dialog(persistent v-model="this.$store.state.isVote" max-width="500")
     v-card
       v-card-title 投票しますか？
-      v-img(:src="'./img/thumbs/notfound.jpg'")
       v-card-text
         div.d-flex.flex-column
-          v-avatar.form-avatar.mb-1.mt-n12.ml-auto.mr-auto(size="100")
+          v-avatar.form-avatar.mb-1.ml-auto.mr-auto(size="100")
             v-img(:src="`./img/avatars/avatar-${currentMemberData.id}.jpg`")
           p.text-center {{ currentMemberData.name }}
         v-row.d-flex.align-end.pb-0
@@ -29,7 +28,7 @@
       v-card-actions
         v-spacer
         v-btn(text @click.stop="close" ) 閉じる
-        v-btn(@click.stop="sendData" outlined color="amber darken-3") 送信する
+        v-btn(@click.stop="sendData" outlined color="purple darken-3") 送信する
 </template>
 <style scoped>
 .avatar-wrapper {
@@ -44,7 +43,7 @@ export default {
     ser: Number
   },
   data: () => ({
-    color: "amber darken-1",
+    color: "#6a1b9a",
     voteData: {
       tec: 0,
       service: 0

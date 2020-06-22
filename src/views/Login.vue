@@ -2,12 +2,12 @@
     v-row.d-flex.justify-center.align-center.container-inner
       v-col.left.d-flex.align-center.justify-center(cols="7")
         h1.display-4.font-weight-bold.white--text
-          | JavaScript
+          | PHP
           br
           | Award
       v-col.right(cols="5").d-flex.align-center.justify-center
-        v-card.loginform(dark :loading="loading" min-width="300")
-          v-card-text.pt-12(color="amber")
+        v-card.loginform( :loading="loading" min-width="300")
+          v-card-text.pt-12(color="purple darken-3")
             v-text-field(
               dense
               :color="color"
@@ -27,8 +27,7 @@
               label="password")
           v-card-actions
             v-spacer
-            v-btn(text @click="logout" txt color="grey" :depressed="true") logout
-            v-btn(text @click="sendLoginRequest" :depressed="true" color="yellow darken-2" ) Login
+            v-btn(text @click="sendLoginRequest" :depressed="true" color="purple darken-3" ) Login
 </template>
 <style>
 .left,
@@ -36,7 +35,7 @@
   height: 100vh;
 }
 .right {
-  background-color: #ffeb3b;
+  background-color: #6a1b9a;
 }
 .left {
   background-image: url("/img/bt-top.jpg");
@@ -57,13 +56,13 @@ export default {
       show: false,
       email: "",
       password: "",
-      color: "yellow darken-2",
+      color: "purple darken-3",
       loading: false
     };
   },
   methods: {
     sendLoginRequest() {
-      this.loading = "yellow";
+      this.loading = "purple darken-1";
       this.$store.dispatch("signin", {
         email: this.email,
         password: this.password

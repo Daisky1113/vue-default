@@ -1,6 +1,6 @@
 <template lang="pug">
 	.text-center
-		v-snackbar.black--text( color="yellow lighten-3" v-model="isShow" :timeout="timeout" top )
+		v-snackbar.black--text( color="purple" v-model="isShow" :timeout="timeout" top )
 			div
 				p(color="amber darken-3") 投票しました
 				div.d-flex.align-center

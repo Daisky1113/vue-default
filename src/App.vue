@@ -1,26 +1,43 @@
 <template lang="pug">
   v-app
     Header
-    router-view(:class="routeViewClass")
+    div.outer
+      router-view(:class="routeViewClass")
     //- Footer
 </template>
+<style>
+.outer {
+  overflow: scroll;
+  height: 96vh;
+  box-sizing: border-box;
+}
+</style>
 
 <script>
 import Header from "./components/Header.vue";
 import Footer from "./components/Footer.vue";
 import firebase from "firebase";
+import memberData from "./defaultData.js";
 export default {
   created() {
-    // データの取得
-    this.$store.dispatch("fetchProductInfo");
-    this.$store.dispatch("fetchChangedProductInfo");
-    // ログイン状態のチェック
+    // let localData = JSON.parse(
+    //   localStorage.getItem(this.$store.state.pojectName)
+    // );
+    console.log("local");
+    const localData = JSON.parse(
+      localStorage.getItem(this.$store.state.projectName)
+    );
 
+    if (localData) {
+      this.$store.commit("setMemberData", localData);
+    } else {
+      this.$store.commit("setMemberData", memberData);
+    }
     // ログイン状態による遷移
     firebase.auth().onAuthStateChanged(user => {
-      this.$store.commit("setLoginUser", user);
-      console.log("authchanged");
-      console.log(this.$store.state);
+      // データの取得
+      this.$store.dispatch("fetchProductInfo", user);
+      this.$store.dispatch("fetchChangedProductInfo");
       if (user) {
         this.$router.push(
           "/vote",
@@ -37,7 +54,6 @@ export default {
     });
   },
   name: "App",
-
   components: {
     Header,
     Footer
@@ -45,10 +61,7 @@ export default {
 
   data: function() {
     return {
-      routeViewClass: {
-        "pt-12": this.$route.name != "Login",
-        "mt-12": this.$route.name != "Login"
-      }
+      routeViewClass: {}
     };
   }
 };

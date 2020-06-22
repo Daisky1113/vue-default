@@ -2,21 +2,36 @@
   v-container
     Snackbar
     v-row.d-flex
-      v-col(cols="12" xl="3" lg="4" md="6" sm="6" xs="12" v-for="product in this.$store.state.products" :key="product.id")
-        v-card
-          v-img(:src="product.thumb ? `./img/thumbs/thumb${id}.jpg` : './img/thumbs/notfound.jpg'")
-          v-card-text.relative
-            div.avatar-wrapper.d-flex.flex-column.justify-center
-              v-avatar.mb-1(size="64")
+      v-col(cols="12")
+        v-tabs(vertical color="purple darken-3")
+          div.tab-wrap
+            v-tab.justify-start(v-if="product.id != 12 && product.id != 14 && product.id != 26 && product.id != 34" v-for="product in this.voteList" :key="'tab'+product.id")
+              v-icon(v-if="product.is_voted") mdi-check
+              v-avatar.mb-1(v-if="!product.is_voted" size="32px")
                 v-img(:src="'./img/avatars/avatar-' + product.id + '.jpg'")
-              p.text-center {{ product.creator }}
-            v-card-title.headline.mb-1 {{ product.name }}
-            v-card-subtitle
-              a.orange--text(:href="product.url" target="blank") {{ product.url}}
-          v-card-actions
-            v-row.pr-4.pb-1
-              v-spacer
-              v-btn(@click.stop="openForm(product.id)" outlined :color="product.is_voted ? 'amber darken-3' : 'blue-grey'") {{ product.is_voted ? '編集' : '投票'}}
+              span.ml-4 {{ product.name }}
+          v-tab-item(v-if="product.id != 12 && product.id != 14 && product.id != 26 && product.id != 34"  v-for="product in this.$store.state.products" :key="'tab-item'+product.id")
+            v-card(flat)
+              v-card-text
+                v-row
+                  v-col.flex(cols="2" justify="center")
+                    v-avatar(size="128px")
+                      v-img(:src="'./img/avatars/avatar-' + product.id + '.jpg'")
+                  v-col(cols="10")
+                    div.tab-wrap
+                      p.mb-4 created by : {{ product.creator }}
+                      h1.mb-2 {{ product.name }}
+                      span
+                        a(:href="product.url" target="blank") {{ product.url }}
+                      div.mb-12.mt-4
+                        v-chip.mt-2.mr-2(v-for="(topic, index) in product.tecTopics.split(',')" :key="index") {{ topic }}
+                      div.mb-12
+                        h2.mb-4 技術的こだわり
+                        p.body-1(v-for="(p,index) in product.tecDetail.split(/\\r\\n|\\r|\\n/g)" :key="'tec-detail' + index") {{ p }}
+                      div.mb-12
+                        h2.mb-4 サービス的こだわり
+                        p.body-1(v-for="(p,index) in product.serviceDetail.split(/\\r\\n|\\r|\\n/g)" :key="'tec-detail' + index") {{ p }}
+                      v-btn(v-if="product.id != 0" @click.stop="openForm(product.id)" outlined color="purple darken-3") {{ product.is_voted ? '編集' : '投票'}}
       VoteForm(:tec="this.$store.getters.currentMemberData.tecPoint" :ser="this.$store.getters.currentMemberData.servicePoint")
 </template>
 <style>
@@ -25,20 +40,36 @@
 }
 .avatar-wrapper {
   position: absolute;
-  top: -27%;
-  right: 4%;
 }
 a {
   text-decoration: none;
+}
+.tab-wrap {
+  padding-top: 12px;
+  height: 80vh;
+  overflow: scroll;
+}
+a {
+  color: #ce93d8 !important ;
 }
 </style>
 <script>
 import VoteForm from "../components/VoteForm.vue";
 import Snackbar from "../components/Snackbar.vue";
 export default {
-  created() {
-    this.$store.commit("defaultSort");
-    console.log(this.$route);
+  // created() {
+  //   console.log(this.$store.state.userId);
+  // },
+  // beforeMount() {
+  //   console.log(this.$store.state.userId);
+  // },
+  // mounted() {
+  //   console.log(this.$store.state.userId);
+  // },
+  computed: {
+    voteList() {
+      return this.$store.getters.idSortMemberList;
+    }
   },
   components: {
     VoteForm,
