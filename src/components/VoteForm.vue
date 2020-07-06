@@ -1,12 +1,10 @@
 <template lang="pug">
-  v-dialog(persistent v-model="this.$store.state.isVote" max-width="500")
+  v-dialog(persistent v-model="this.show" max-width="500")
     v-card
       v-card-title 投票しますか？
       v-card-text
         div.d-flex.flex-column
-          v-avatar.form-avatar.mb-1.ml-auto.mr-auto(size="100")
-            v-img(:src="`./img/avatars/avatar-${currentMemberData.id}.jpg`")
-          p.text-center {{ currentMemberData.name }}
+          p.text-center {{ name }}
         v-row.d-flex.align-end.pb-0
           v-col(cols="12" lg="3" xs="12")
             p.title 技術
@@ -36,9 +34,10 @@
 }
 </style>
 <script>
-import { mapGetters } from "vuex";
+// import { mapGetters } from "vuex";
 export default {
   props: {
+    name: String,
     tec: Number,
     ser: Number
   },
@@ -50,16 +49,19 @@ export default {
     }
   }),
   computed: {
-    ...mapGetters(["currentMemberData"])
+    show: function() {
+      return this.$store.state.UI.isVoteFormShow;
+    }
   },
   methods: {
     close() {
-      this.$store.commit("closeVoteForm");
+      this.$store.commit("UI/voteFormHide");
     },
     sendData() {
       this.voteData.tec == 0 && (this.voteData.tec = this.$props.tec);
       this.voteData.service == 0 && (this.voteData.service = this.$props.ser);
-      this.$store.dispatch("vote", Object.assign({}, this.voteData));
+
+      // this.$store.dispatch("vote", Object.assign({}, this.voteData));
       this.close();
       this.reset();
     },

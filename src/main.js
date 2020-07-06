@@ -5,14 +5,15 @@ import store from "./store";
 import vuetify from "./plugins/vuetify";
 import firebase from "firebase";
 Vue.config.productionTip = false;
-const firebaseConfig = {
-  apiKey: "AIzaSyBrWP13lxRhZdAUbQeNBS1glRrsVdD2KWk",
-  authDomain: "lab9-js-award.firebaseapp.com",
-  databaseURL: "https://lab9-js-award.firebaseio.com",
-  projectId: "lab9-js-award",
-  storageBucket: "lab9-js-award.appspot.com",
-  messagingSenderId: "138797369864",
-  appId: "1:138797369864:web:e18c2ae5e09b05bef0dfbd",
+// Your web app's Firebase configuration
+var firebaseConfig = {
+  apiKey: "AIzaSyAH3Q0JaaX9L37jEvza8RLBCL_wbKnBdBw",
+  authDomain: "lab9-team-award.firebaseapp.com",
+  databaseURL: "https://lab9-team-award.firebaseio.com",
+  projectId: "lab9-team-award",
+  storageBucket: "lab9-team-award.appspot.com",
+  messagingSenderId: "992052006736",
+  appId: "1:992052006736:web:fa84caf4b525b5f920e655",
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);

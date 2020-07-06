@@ -1,11 +1,11 @@
 <template lang="pug">
   v-app-bar(flat v-if="this.$route.name !='Login'")
-    v-toolbar-title PHP Award
+    v-toolbar-title Team Dev Award
     v-spacer
     v-chip.mr-4
       v-avatar(left)
-        v-img(v-if ="this.$store.state.userId != null" :src="'./img/avatars/avatar-' + this.$store.state.userId + '.jpg'")
-      | {{ this.$store.state.userName }}
+        v-img(v-if ="this.loginUser.userId" :src="'./img/avatars/avatar-' + this.loginUser.id + '.jpg'")
+      | {{ this.loginUser.name }}
     router-link(to="/vote" :class="{'router-link-active': $route.path === '/vote'}")
       v-btn(icon)
         v-icon mdi-vote-outline
@@ -30,9 +30,14 @@ a {
 </style>
 <script>
 export default {
+  computed: {
+    loginUser() {
+      return this.$store.state.domain.user;
+    }
+  },
   methods: {
     logout() {
-      this.$store.dispatch("logout");
+      this.$store.dispatch("domain/logout");
     }
   }
 };

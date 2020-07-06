@@ -63,7 +63,7 @@ export default {
   methods: {
     sendLoginRequest() {
       this.loading = "purple darken-1";
-      this.$store.dispatch("signin", {
+      this.$store.dispatch("domain/login", {
         email: this.email,
         password: this.password
       });

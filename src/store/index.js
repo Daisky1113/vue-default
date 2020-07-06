@@ -1,23 +1,16 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import firebase from "firebase";
-
+import DomainStore from "./domain-store";
+import UIStore from "./ui-store";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {
-    projectName: "phpVote",
-    user: null,
-    userId: null,
-    userName: "",
-    isVote: false,
-    isProductInfoDialog: false,
-    isSnackbar: false,
-    currentMemberId: 1,
-    sortMode: "default",
-    products: [],
-    members: [],
+  modules: {
+    domain: DomainStore,
+    UI: UIStore,
   },
+  state: {},
   mutations: {
     setMemberData(state, payload) {
       console.log("setmemberdata");
@@ -163,15 +156,13 @@ export default new Vuex.Store({
     },
   },
   getters: {
-    uid: (state) => state.user.uid,
-    currentMemberData: (state) =>
-      state.members.find((member) => member.id == state.currentMemberId),
-    currentProductData: (state) =>
-      state.products.find((product) => product.id == state.currentMemberId),
-    userData: (state) => state.user,
-    idSortMemberList: (state) =>
-      state.members.sort((a, b) => (a.id < b.id ? -1 : 1)),
+    // uid: (state) => state.user.uid,
+    // currentMemberData: (state) =>
+    //   state.members.find((member) => member.id == state.currentMemberId),
+    // currentProductData: (state) =>
+    //   state.products.find((product) => product.id == state.currentMemberId),
+    // userData: (state) => state.user,
+    // idSortMemberList: (state) =>
+    //   state.members.sort((a, b) => (a.id < b.id ? -1 : 1)),
   },
-
-  modules: {},
 });

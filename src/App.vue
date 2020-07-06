@@ -17,28 +17,34 @@
 import Header from "./components/Header.vue";
 import Footer from "./components/Footer.vue";
 import firebase from "firebase";
-import memberData from "./defaultData.js";
+import { mapActions } from "vuex";
+// import memberData from "./defaultData.js";
 export default {
-  created() {
-    // let localData = JSON.parse(
-    //   localStorage.getItem(this.$store.state.pojectName)
-    // );
-    console.log("local");
-    const localData = JSON.parse(
-      localStorage.getItem(this.$store.state.projectName)
-    );
+  beforeMount() {
+    // this.$store.dispatch("test");
 
-    if (localData) {
-      this.$store.commit("setMemberData", localData);
-    } else {
-      this.$store.commit("setMemberData", memberData);
-    }
+    //   // let localData = JSON.parse(
+    //   //   localStorage.getItem(this.$store.state.pojectName)
+    //   // );
+    //   console.log("local");
+    //   const localData = JSON.parse(
+    //     localStorage.getItem(this.$store.state.projectName)
+    //   );
+
+    //   if (localData) {
+    //     this.$store.commit("setMemberData", localData);
+    //   } else {
+    //     this.$store.commit("setMemberData", memberData);
+    //   }
     // ログイン状態による遷移
     firebase.auth().onAuthStateChanged(user => {
       // データの取得
-      this.$store.dispatch("fetchProductInfo", user);
-      this.$store.dispatch("fetchChangedProductInfo");
       if (user) {
+        // console.log(user);
+        this.fetchTeams();
+        this.fetchUsers();
+        this.fetchLoginUser(user.uid);
+        this.fetchVotes();
         this.$router.push(
           "/vote",
           () => {},
@@ -58,11 +64,18 @@ export default {
     Header,
     Footer
   },
-
   data: function() {
     return {
       routeViewClass: {}
     };
+  },
+  methods: {
+    ...mapActions("domain", [
+      "fetchTeams",
+      "fetchUsers",
+      "fetchLoginUser",
+      "fetchVotes"
+    ])
   }
 };
 </script>
