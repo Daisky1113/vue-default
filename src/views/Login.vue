@@ -1,10 +1,8 @@
 <template lang="pug">
     v-row.d-flex.justify-center.align-center.container-inner
       v-col.left.d-flex.align-center.justify-center(cols="7")
-        h1.display-4.font-weight-bold.white--text
-          | PHP
-          br
-          | Award
+        h1.display-4.font-weight-bold
+          | Team Dev Award
       v-col.right(cols="5").d-flex.align-center.justify-center
         v-card.loginform( :loading="loading" min-width="300")
           v-card-text.pt-12(color="purple darken-3")
@@ -35,10 +33,10 @@
   height: 100vh;
 }
 .right {
-  background-color: #6a1b9a;
+  /* background-color: #6a1b9a; */
 }
 .left {
-  background-image: url("/img/bt-top.jpg");
+  /* background-image: url("/img/bt-top.jpg"); */
   background-size: cover;
   object-fit: cover;
 }

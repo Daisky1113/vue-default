@@ -44,7 +44,7 @@ export default {
         this.fetchTeams();
         this.fetchUsers();
         this.fetchLoginUser(user.uid);
-        this.fetchVotes();
+        // this.fetchVotes();
         this.$router.push(
           "/vote",
           () => {},
@@ -73,8 +73,8 @@ export default {
     ...mapActions("domain", [
       "fetchTeams",
       "fetchUsers",
-      "fetchLoginUser",
-      "fetchVotes"
+      "fetchLoginUser"
+      // "fetchVotes"
     ])
   }
 };

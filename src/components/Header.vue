@@ -12,11 +12,8 @@
     router-link(to="/vote-list" :class="{'router-link-active': $route.path === '/vote-list'}")
       v-btn(icon)
         v-icon mdi-playlist-edit
-    //- v-btn(icon)
-    //-   v-icon mdi-card-account-details-outline
-    router-link(to="/mypage" :class="{'router-link-active': $route.path === '/mypage'}")
-      v-btn(icon)
-        v-icon mdi-account-outline
+    router-link(to="/result" :class="{'router-link-active': $route.path === '/result'}")
+      v-btn(text) result
     v-btn(@click="logout" icon)
       v-icon mdi-logout
 </template>

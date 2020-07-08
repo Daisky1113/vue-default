@@ -41,6 +41,10 @@ export default {
     tec: Number,
     ser: Number
   },
+  created() {
+    console.log(this.tec);
+    console.log(this.ser);
+  },
   data: () => ({
     color: "#6a1b9a",
     voteData: {
@@ -61,7 +65,8 @@ export default {
       this.voteData.tec == 0 && (this.voteData.tec = this.$props.tec);
       this.voteData.service == 0 && (this.voteData.service = this.$props.ser);
 
-      // this.$store.dispatch("vote", Object.assign({}, this.voteData));
+      const payload = Object.assign({}, this.voteData);
+      this.$store.dispatch("domain/sendVoteData", payload);
       this.close();
       this.reset();
     },

@@ -1,8 +1,10 @@
 <template lang="pug">
   v-container
-    Snackbar
-    VoteForm(:tec="this.$store.getters.currentMemberData.tecPoint" :ser="this.$store.getters.currentMemberData.servicePoint")
-    ProductInfoDialog
+    VoteForm(
+      v-if="this.$store.state.UI.isVoteFormShow"
+      :tec="this.currentVoteData.tec"
+      :ser="this.currentVoteData.service"
+      :name="this.currentVoteData.name")
     v-card
       v-list
         v-list-item
@@ -20,13 +22,14 @@
               v-icon.ml-2(v-if="totalSortState.active && totalSortState.up") mdi-arrow-up-circle-outline
               v-icon.ml-2(v-if="totalSortState.active && totalSortState.down") mdi-arrow-down-circle-outline
           v-list-item-title.grey--text.text-center Action
-        v-list-item(v-if="data.id != 0 && data.id != 12 && data.id != 14 && data.id != 26 && data.id != 34" v-for="data in voteList" :key ="data.id")
-          v-list-item-avatar
-            v-img(:src="'./img/avatars/avatar-' + data.id + '.jpg'")
-          v-list-item-title {{ data.name }}
-          v-list-item-title.text-center {{ ['S','A','B','C','D'][data.tecPoint -1] }}
-          v-list-item-title.text-center {{ ['S','A','B','C','D'][data.servicePoint -1 ]}}
-          v-list-item-title.text-center {{ (data.tecPoint + data.servicePoint) / 2 }}
+        v-list-item(v-for="data in voteData" :key ="data.id")
+          v-list-item-title
+              v-icon(v-if="data.is_voted") mdi-check
+              v-icon(v-if="!data.is_voted") mdi-file-document-outline
+              span.ml-2 {{ data.name }}
+          v-list-item-title.text-center {{ ['S','A','B','C','D'][data.tec -1] }}
+          v-list-item-title.text-center {{ ['S','A','B','C','D'][data.service -1 ]}}
+          v-list-item-title.text-center {{ (data.tec + data.service) / 2 }}
           v-list-item-title.text-center
             v-btn(icon @click="edit(data.id)")
               v-icon mdi-file-document-edit-outline
@@ -38,23 +41,24 @@
 </style>
 <script>
 import VoteForm from "../components/VoteForm.vue";
-import ProductInfoDialog from "../components/ProductInfoDialog.vue";
-import Snackbar from "../components/Snackbar.vue";
-import { mapMutations } from "vuex";
+// import ProductInfoDialog from "../components/ProductInfoDialog.vue";
+// import Snackbar from "../components/Snackbar.vue";
+import { mapMutations, mapGetters } from "vuex";
 
 export default {
   components: {
-    VoteForm,
-    Snackbar,
-    ProductInfoDialog
+    VoteForm
+    // Snackbar,
+    // ProductInfoDialog
   },
   created() {
-    console.log("vote");
-    console.log(this.voteList);
+    // console.log("vote");
+    // console.log(this.voteList);
+    console.log(this.voteData);
   },
   beforeMount() {
-    this.totalSort();
-    console.log("beforemount");
+    // this.totalSort();
+    // console.log("beforemount");
   },
   data: function() {
     return {
@@ -77,14 +81,12 @@ export default {
     };
   },
   computed: {
-    voteList() {
-      return this.$store.state.members;
-    }
+    ...mapGetters("domain", ["currentVoteData", "voteData"])
   },
   methods: {
     edit(id) {
-      this.setCurrentMemberId(id);
-      this.openVoteForm();
+      this.setCurrentTeamId(id);
+      this.voteFormShow();
     },
     tecSort() {
       this.tecSortState.active = true;
@@ -92,11 +94,11 @@ export default {
       this.totalSortState.active = false;
       this.tecSortState.up = !this.tecSortState.up;
       this.tecSortState.down = !this.tecSortState.down;
-      this.voteList.sort((a, b) => {
+      this.voteData.sort((a, b) => {
         if (this.tecSortState.up) {
-          return a.tecPoint < b.tecPoint ? -1 : 1;
+          return a.tec < b.tec ? -1 : 1;
         } else {
-          return a.tecPoint > b.tecPoint ? -1 : 1;
+          return a.tec > b.tec ? -1 : 1;
         }
       });
     },
@@ -106,11 +108,11 @@ export default {
       this.totalSortState.active = false;
       this.serviceSortState.up = !this.serviceSortState.up;
       this.serviceSortState.down = !this.serviceSortState.down;
-      this.voteList.sort((a, b) => {
+      this.voteData.sort((a, b) => {
         if (this.serviceSortState.up) {
-          return a.servicePoint < b.servicePoint ? -1 : 1;
+          return a.service < b.service ? -1 : 1;
         } else {
-          return a.servicePoint > b.servicePoint ? -1 : 1;
+          return a.service > b.service ? -1 : 1;
         }
       });
     },
@@ -120,26 +122,16 @@ export default {
       this.totalSortState.active = true;
       this.totalSortState.up = !this.totalSortState.up;
       this.totalSortState.down = !this.totalSortState.down;
-      this.voteList.sort((a, b) => {
+      this.voteData.sort((a, b) => {
         if (this.totalSortState.up) {
-          return (a.tecPoint + a.servicePoint) / 2 <
-            (b.tecPoint + b.servicePoint) / 2
-            ? -1
-            : 1;
+          return (a.tec + a.service) / 2 < (b.tec + b.service) / 2 ? -1 : 1;
         } else {
-          return (a.tecPoint + a.servicePoint) / 2 >
-            (b.tecPoint + b.servicePoint) / 2
-            ? -1
-            : 1;
+          return (a.tec + a.service) / 2 > (b.tec + b.service) / 2 ? -1 : 1;
         }
       });
     },
-    ...mapMutations([
-      "setCurrentMemberId",
-      "openVoteForm",
-      "defaultSort",
-      "vote"
-    ])
+    ...mapMutations("domain", ["setCurrentTeamId"]),
+    ...mapMutations("UI", ["voteFormShow"])
   }
 };
 </script>
